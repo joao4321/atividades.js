@@ -32,12 +32,12 @@
             if(resto == 0 && num == 2)
             {
                 alert("Primo");
-                document.write('numero é primo');
+                document.write('numero é primo ='+ num);
             }
             else
             {
                 alert("Não Primo");
-                document.write('numero não é primo');
+                document.write('numero não é primo ='+ numj);
             }
         </script>
         <h2> Verificação de numero par</h2>
@@ -47,12 +47,12 @@
             if(resto == 0)
             {   
                 alert("Número par! ");
-                document.write('numero é par');
+                document.write(''+ n +'numero é par');
             }
             else if(resto != 0)
             {
                 alert("Número ímpar! ");
-                document.write('numero é impar');
+                document.write(''+ n +'numero é impar');
             }
         </script>
         <h2> Fatorial de um numero</h2>
@@ -68,8 +68,8 @@
                 result = result * num;
             }
             alert('Fatorial de '+n_inicial+' é= '+result)
+            document.write('Fatorial de '+n_inicial+' é '+result);
             factorialize(5);
-            document.write('Fatorial de '+n_inicial+' é= '+result);
         </script>
         </br>
         </br>

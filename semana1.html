@@ -5,6 +5,74 @@
     </head>
     <body>
         <h1>Atividade da primeira semana</h1>
+        <h2> Verificaão do tipo de variavel</h2>
+        <script>
+            let dados = prompt('Digite algo', "");
+        if(confirm('Verificar tipo de dado?'))
+        {
+            if (dados >= 1 && dados <= 2147483647)
+            {
+                dados_num = parseInt(dados);
+                document.write('Number!');
+            }
+            else if (dados === "true" || dados === "false")
+            {
+                document.write('Boolean');
+            }
+            else
+            {
+                document.write('String');
+            }
+        }
+        </script>
+        <h2> Verificação de numero primo</h2>
+        <script>
+            let num = prompt('Digite um número para verificação de primo ou não: ');
+            resto = num % 1
+            if(resto == 0 && num == 2)
+            {
+                alert("Primo");
+                document.write('numero é primo');
+            }
+            else
+            {
+                alert("Não Primo");
+                document.write('numero não é primo');
+            }
+        </script>
+        <h2> Verificação de numero par</h2>
+        <script>
+            let n = prompt('Digite um número para realizar verificação de par ou impar')
+            resto = n % 2
+            if(resto == 0)
+            {   
+                alert("Número par! ");
+                document.write('numero é par');
+            }
+            else if(resto != 0)
+            {
+                alert("Número ímpar! ");
+                document.write('numero é impar');
+            }
+        </script>
+        <h2> Fatorial de um numero</h2>
+        <script>
+            num = prompt('Digite um numero para o fatorial: ')
+            n_inicial = num;
+            var result = num;
+            if (num === 0 || num === 1) 
+                alert('1'); 
+            while (num > 1)
+            {
+                num--;
+                result = result * num;
+            }
+            alert('Fatorial de '+n_inicial+' é= '+result)
+            factorialize(5);
+            document.write('Fatorial de '+n_inicial+' é= '+result);
+        </script>
+        </br>
+        </br>
         <a href="index.html">Voltar</a>
     </body>
 </html>

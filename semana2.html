@@ -1,10 +1,75 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport">
-    </head>
-    <body>
-        <h1>Atividade da segunda semana</h1>
-        <a href="index.html">Voltar</a>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+</head>
+<body>
+
+    <h1>Formulário de Cadastro</h1>
+
+    <form id="dataForm">
+        <label for="inputName">Nome:</label>
+        <input type="text" id="inputName" required>
+
+        <label for="inputEmail">Email:</label>
+        <input type="email" id="inputEmail" required>
+
+        <label for="inputAge">Idade:</label>
+        <input type="number" id="inputAge" required>
+
+        <button type="button" onclick="addData()">Adicionar</button>
+    </form>
+
+    <h2>Dados Cadastrados (em ordem alfabética):</h2>
+    <ul id="resultList"></ul>
+
+    <script>
+        
+        var dataArray = [];
+
+        function addData() {
+            var inputName = document.getElementById("inputName").value.trim();
+            var inputEmail = document.getElementById("inputEmail").value.trim();
+            var inputAge = document.getElementById("inputAge").value;
+            if (inputEmail !== "" && !dataArray.some(data => data.email === inputEmail)) {
+                var newData = {
+                    name: inputName,
+                    email: inputEmail,
+                    age: inputAge,
+                    
+                };
+
+                dataArray.push(newData);
+                dataArray.sort((a, b) => a.name.localeCompare(b.name)); 
+
+                
+                var resultList = document.getElementById("resultList");
+                resultList.innerHTML = "";
+
+              
+                dataArray.forEach(data => {
+                    var listItem = document.createElement("li");
+                    listItem.textContent = `${data.name} (${data.age} anos) - Email: ${data.email} - Outro Valor: ${data.value}`;
+                    resultList.appendChild(listItem);
+                });
+
+                
+                document.getElementById("inputName").value = "";
+                document.getElementById("inputEmail").value = "";
+                document.getElementById("inputAge").value = "";
+                document.getElementById("inputValue").value = "";
+            } else {
+                alert("Digite informações válidas e verifique se o email ainda não está na lista.");
+            }
+        }
+    </script>
+      <button type="button" onclick="addData()"><a href="index.html">Voltar</a>
+    </button>
+
+</body>
 </html>
+
+

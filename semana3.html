@@ -1,40 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relógio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.rtl.min.css"
+    integrity="sha384-+4j30LffJ4tgIMrq9CwHvn0NjEvmuDCOfk6Rpg2xg7zgOxWWtLtozDEEVvBPgHqE" crossorigin="anonymous">
+    
+    <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-<title>Relógio</title>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.rtl.min.css"
-integrity="sha384-+4j30LffJ4tgIMrq9CwHvn0NjEvmuDCOfk6Rpg2xg7zgOxWWtLtozDEEVvBPgHqE" crossorigin="anonymous">
-
-<style>
-    #centeredText {
+        #centeredText {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             font-size: 24px;
-    }
-    .container {
-            text-align: center;
-             margin-top: 50px; 
         }
-    
-    #hora {
-            font-size: 36px;
-    }
-</style>
-</head>
 
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #hora {
+            font-size: 36px;
+        }
+    </style>
+</head>
 <body class="" onload="horarioAtual()">
 
-<div class="container col-2 ">
-    
-    
-    <h1 id="hora"></h1>
-    
-</div>
 <div id="centeredText">Relógio</div>
-<script type="text/javascript" src="script.js"></script>
-    <button type="button" onclick="addData()"><a href="index.html">Voltar</a></button>
-</script>
-</body>
 
+<div class="container col-2">
+    <h1 id="hora"></h1>
+</div>
+
+<form id="palindromeForm">
+    <label for="texto">Verificar Palíndromo:</label>
+    <input type="text" id="texto" required>
+    <button type="button" onclick="verificarPalindromo()">Verificar</button>
+</form>
+
+<script>
+    function horarioAtual() {
+        let data = new Date();
+        let hora = data.getHours();
+        let minutos = data.getMinutes();
+        let segundos = data.getSeconds();
+
+        hora = hora < 10 ? "0" + hora : hora;
+        minutos = minutos < 10 ? "0" + minutos : minutos;
+        segundos = segundos < 10 ? "0" + segundos : segundos;
+
+        document.getElementById("hora").textContent = `${hora}:${minutos}:${segundos}`;
+
+        setTimeout(horarioAtual, 1000);
+    }
+
+    function verificarPalindromo() {
+        let texto = document.getElementById('texto').value.toLowerCase().replace(/\s/g, '');
+        let textoReverso = texto.split('').reverse().join('');
+      
+        if (texto === textoReverso) {
+            alert("A palavra/frase é um palíndromo!");
+        } else {
+            alert("A palavra/frase não é um palíndromo.");
+        }
+    }
+</script>
+
+<button type="button" onclick="addData()"><a href="index.html">Voltar</a></button>
+
+</body>
 </html>

@@ -1,80 +1,33 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Formulário de Carro</title>
 </head>
 <body>
-    <ul id="resultList"></ul>
-
-    <form id="dataForm">
-        <H1> Formulário de cadastro</H1>
-        <label for="inputName">Nome:</label>
-        <input type="text" id="inputName" required>
-
-        <label for="inputEmail">Email:</label>
-        <input type="email" id="inputEmail" required>
-
-        <label for="inputAge">Idade:</label>
-        <input type="number" id="inputAge" required>
-
-        <label for="inputSexo">Sexo:</label>
-        <input type="text" id="inputSexo" required>
-
-        <label for="inputData">Data de Nascimento:</label>
-        <input type="date" id="inputData" required>
-
-        <button type="button" onclick="addData()">Adicionar</button>
+    <form id="carForm">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca"><br><br>
+        
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo"><br><br>
+        
+        <label for="ano">Ano:</label>
+        <input type="number" id="ano" name="ano"><br><br>
+        
+        <label for="cor">Cor:</label>
+        <input type="text" id="cor" name="cor"><br><br>
+        
+        <label for="kilometragem">Kilometragem:</label>
+        <input type="number" id="kilometragem" name="kilometragem"><br><br>
+        
+        <label for="valorFipe">Valor Fipe:</label>
+        <input type="number" id="valorFipe" name="valorFipe"><br><br>
+        
+        <button type="button" onclick="armazenarCarro()">Armazenar Carro</button>
     </form>
-    <h2>Dados Cadastrados (em ordem alfabética):</h2>
 
-    <script>
-        var dataArray = [];
-
-        function addData() {
-            var inputName = document.getElementById("inputName").value.trim();
-            var inputEmail = document.getElementById("inputEmail").value.trim();
-            var inputSexo = document.getElementById("inputTelefone").value.trim();
-            var inputSexo = document.getElementById("inputCelular").value.trim();
-            var inputSexo = document.getElementById("inputCurso").value.trim();
-
-
-
-
-            var inputAge = document.getElementById("inputAge").value;
-            var inputSexo = document.getElementById("inputSexo").value.trim();
-            var inputData = document.getElementById("inputData").value;
-
-            if (inputEmail !== "" && !dataArray.some(data => data.email === inputEmail)) {
-                var newData = {
-                    name: inputName,
-                    email: inputEmail,
-                    age: inputAge,
-                    sexo: inputSexo,
-                    data: inputData
-                };
-
-                dataArray.push(newData);
-                dataArray.sort((a, b) => a.name.localeCompare(b.name)); 
-
-                var resultList = document.getElementById("resultList");
-                resultList.innerHTML = "";
-
-                dataArray.forEach(data => {
-                    var listItem = document.createElement("li");
-                    listItem.textContent = `${data.name} (${data.age} anos) - Email: ${data.email} - Sexo: ${data.sexo} - Data de Nascimento: ${data.data}`;
-                    resultList.appendChild(listItem);
-                });
-
-                document.getElementById("inputName").value = "";
-                document.getElementById("inputEmail").value = "";
-                document.getElementById("inputAge").value = "";
-                document.getElementById("inputSexo").value = "";
-                document.getElementById("inputData").value = "";
-            } else {
-                alert("Digite informações válidas e verifique se o email ainda não está na lista.");
-            }
-        }
-    </script>
+    <script src="scriptcarro.js"></script>
 </body>
 </html>

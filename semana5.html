@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador de Pessoas</title>
+<style>
+  .contador {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 300px;
+    margin: 50px auto;
+    background-color: #f9f9f9;
+  }
+  .contador h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .contador p {
+    font-size: 18px;
+    margin: 0;
+  }
+  .imagens {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  .imagens img {
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+
+<div class="contador">
+  <h2>Contador de Pessoas</h2>
+  <div class="imagens">
+    <img src="homem.jpg" alt="Homem">
+    <img src="mulher.jpg" alt="Mulher">
+  </div>
+  <p>Total: <span id="total">0</span></p>
+  <p>Homens: <span id="homens">0</span></p>
+  <p>Mulheres: <span id="mulheres">0</span></p>
+  <button onclick="adicionarPessoa('homem')">Adicionar Homem</button>
+  <button onclick="adicionarPessoa('mulher')">Adicionar Mulher</button>
+  <br>
+  <button onclick="removerPessoa('homem')">Remover Homem</button>
+  <button onclick="removerPessoa('mulher')">Remover Mulher</button>
+</div>
+
+<script>
+  let total = 0;
+  let homens = 0;
+  let mulheres = 0;
+
+  const totalElement = document.getElementById('total');
+  const homensElement = document.getElementById('homens');
+  const mulheresElement = document.getElementById('mulheres');
+
+  function adicionarPessoa(genero) {
+    total++;
+    totalElement.textContent = total;
+    
+    if (genero === 'homem') {
+      homens++;
+      homensElement.textContent = homens;
+    } else if (genero === 'mulher') {
+      mulheres++;
+      mulheresElement.textContent = mulheres;
+    }
+  }
+
+  function removerPessoa(genero) {
+    if (genero === 'homem' && homens > 0) {
+      homens--;
+      total--;
+      homensElement.textContent = homens;
+    } else if (genero === 'mulher' && mulheres > 0) {
+      mulheres--;
+      total--;
+      mulheresElement.textContent = mulheres;
+    }
+    totalElement.textContent = total;
+  }
+</script>
+
+</body>
+</html>

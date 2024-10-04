@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário</title>
+    <title>Formulário de Cadastro Dinâmico</title>
     <style>
         body {
             display: flex;
@@ -52,22 +52,27 @@
 
         #resultList {
             margin-top: 20px;
-            list-style-type: none;
             padding: 0;
+            list-style-type: none;
         }
 
-        #resultList li {
-            padding: 70px;
+        ol {
+            padding-left: 20px;
+        }
+
+        ol li {
+            padding: 10px;
             margin-bottom: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 3px;
         }
     </style>
 </head>
 <body>
     
-    <ul id="resultList"></ul>
-
     <form id="dataForm">
-        <H1> Formulário de cadastro</H1>
+        <H1>Formulário de cadastro</H1>
         <label for="inputName">Nome:</label>
         <input type="text" id="inputName" required>
 
@@ -85,6 +90,9 @@
 
         <button type="button" onclick="addData()">Adicionar</button>
     </form>
+
+    <h2>Dados Cadastrados (em ordem alfabética):</h2>
+    <ol id="resultList"></ol>
 
     <script>
         var dataArray = [];
@@ -106,10 +114,10 @@
                 };
 
                 dataArray.push(newData);
-                dataArray.sort((a, b) => a.name.localeCompare(b.name)); 
+                dataArray.sort((a, b) => a.name.localeCompare(b.name));
 
                 var resultList = document.getElementById("resultList");
-                resultList.innerHTML = "";
+                resultList.innerHTML = ""; 
 
                 dataArray.forEach(data => {
                     var listItem = document.createElement("li");
@@ -117,6 +125,7 @@
                     resultList.appendChild(listItem);
                 });
 
+                
                 document.getElementById("inputName").value = "";
                 document.getElementById("inputEmail").value = "";
                 document.getElementById("inputAge").value = "";
@@ -128,9 +137,9 @@
         }
     </script>
 
-    <h2>Dados Cadastrados (em ordem alfabética):</h2>
-
-    <button type="button" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;"><a href="index.html" style="text-decoration: none; color: inherit;">Voltar</a></button>
+    <button type="button" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">
+        <a href="index.html" style="text-decoration: none; color: inherit;">Voltar</a>
+    </button>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relógio</title>
+    <title>Relógio e Data</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.rtl.min.css"
     integrity="sha384-+4j30LffJ4tgIMrq9CwHvn0NjEvmuDCOfk6Rpg2xg7zgOxWWtLtozDEEVvBPgHqE" crossorigin="anonymous">
     
@@ -34,14 +34,20 @@
         #hora {
             font-size: 36px;
         }
+
+        #data {
+            font-size: 24px;
+            margin-top: 10px;
+        }
     </style>
 </head>
-<body class="" onload="horarioAtual()">
+<body class="" onload="horarioAtual(); exibirDataAtual();">
 
 <div id="centeredText">Relógio</div>
 
 <div class="container col-2">
     <h1 id="hora"></h1>
+    <p id="data"></p> 
 </div>
 
 <form id="palindromeForm">
@@ -50,7 +56,7 @@
     <button type="button" onclick="verificarPalindromo()">Verificar</button>
 </form>
 
-<button type="button" onclick="addData()"><a href="index.html">Voltar</a></button>
+<button type="button" onclick="window.location.href='index.html'">Voltar</button>
 
 <script>
     function horarioAtual() {
@@ -79,7 +85,6 @@
         }
     }
 
-
     function exibirDataAtual() {
         let data = new Date();
         let diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
@@ -87,14 +92,14 @@
 
         let diaSemana = diasSemana[data.getDay()];
         let dia = data.getDate();
-        let mes = meses data.getMonth();
+        let mes = meses[data.getMonth()];
         let ano = data.getFullYear();
 
         let dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
-        alert(dataFormatada)
-       
+        
+        
+        document.getElementById("data").textContent = dataFormatada;
     }
-    document.getElementById (exibirDataAtual());
 </script>
 
 </body>

@@ -180,7 +180,7 @@
 
         function validarNome() {
             const nome = document.getElementById('nome').value;
-            const regex = /^[A-Za-z]+ [A-Za-z]+$/; // Nome no formato "Nome Sobrenome"
+            const regex = /^[A-Za-z]+ [A-Za-z]+$/; 
             const erroNome = document.getElementById('erroNome');
             if (!regex.test(nome)) {
                 erroNome.style.display = 'block';
@@ -193,7 +193,7 @@
 
         function validarEmail() {
             const email = document.getElementById('email').value;
-            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/; // Formato de email
+            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/; 
             const erroEmail = document.getElementById('erroEmail');
             if (!regex.test(email)) {
                 erroEmail.style.display = 'block';
@@ -206,7 +206,7 @@
 
         function validarDataNascimento() {
             const dataNascimento = document.getElementById('dataNascimento').value;
-            const regex = /^\d{2}\/\d{2}\/\d{4}$/; // Formato dd/mm/aaaa
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
             const erroDataNascimento = document.getElementById('erroDataNascimento');
             if (!regex.test(dataNascimento)) {
                 erroDataNascimento.style.display = 'block';
@@ -269,7 +269,7 @@
 
         function validarMatriculaAluno() {
             const matriculaAluno = document.getElementById('matriculaAluno').value;
-            const regex = /^\d{10}$/; // 10 dígitos para aluno
+            const regex = /^\d{10}$/; 
             const erroMatriculaAluno = document.getElementById('erroMatriculaAluno');
             if (!regex.test(matriculaAluno)) {
                 erroMatriculaAluno.style.display = 'block';
@@ -282,7 +282,7 @@
 
         function validarMatriculaProfessor() {
             const matriculaProfessor = document.getElementById('matriculaProfessor').value;
-            const regex = /^\d{5}$/; // 5 dígitos para professor
+            const regex = /^\d{5}$/; 
             const erroMatriculaProfessor = document.getElementById('erroMatriculaProfessor');
             if (!regex.test(matriculaProfessor)) {
                 erroMatriculaProfessor.style.display = 'block';

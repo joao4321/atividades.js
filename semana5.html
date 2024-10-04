@@ -105,7 +105,7 @@
         }
 
         class GerenciadorDeTarefas {
-            #tarefas; // array privado de tarefas
+            #tarefas;
 
             constructor() {
                 this.#tarefas = [];
@@ -182,7 +182,7 @@
             const descricao = document.getElementById('taskDescription').value;
             const tarefa = new Tarefa(nome, descricao);
             gerenciador.adicionarTarefa(tarefa);
-            this.reset(); // Limpar o formulário
+            this.reset(); 
         };
     </script>
 </body>

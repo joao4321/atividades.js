@@ -74,7 +74,7 @@
         }
 
         .conditional-fields {
-            display: none; 
+            display: none; /* Esconde os campos condicionais inicialmente */
         }
     </style>
 </head>
@@ -180,7 +180,7 @@
 
         function validarEmail(input, errorId) {
             const email = input.value;
-            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/; 
+            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
             const erroEmail = document.getElementById(errorId);
             if (!regex.test(email)) {
                 erroEmail.style.display = 'block';
@@ -193,7 +193,7 @@
 
         function validarDataNascimento() {
             const dataNascimento = document.getElementById('dataNascimento').value;
-            const regex = /^\d{2}\/\d{2}\/\d{4}$/; 
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/; // Formato dd/mm/aaaa
             const erroDataNascimento = document.getElementById('erroDataNascimento');
             if (!regex.test(dataNascimento)) {
                 erroDataNascimento.style.display = 'block';
@@ -206,7 +206,7 @@
 
         function validarTelefone(input, errorId) {
             const telefone = input.value;
-            const regex = /^\(\d{2}\)\d{4}-\d{4}$/; 
+            const regex = /^\(\d{2}\)\d{4}-\d{4}$/; // Formato (xx)xxxx-xxxx
             const erroTelefone = document.getElementById(errorId);
             if (!regex.test(telefone)) {
                 erroTelefone.style.display = 'block';
@@ -219,7 +219,7 @@
 
         function validarMatricula(input, errorId, requiredLength) {
             const matricula = input.value;
-            const regex = new RegExp(`^\\d{${requiredLength}}$`); 
+            const regex = new RegExp(`^\\d{${requiredLength}}$`); // Validação com o número de dígitos requerido
             const erroMatricula = document.getElementById(errorId);
             if (!regex.test(matricula)) {
                 erroMatricula.style.display = 'block';
@@ -231,7 +231,7 @@
         }
 
         function validarFormulario() {
-         
+            // Chama as funções de validação
             validarNome();
             validarEmail(document.getElementById('email'), 'erroEmail');
             validarDataNascimento();
@@ -275,7 +275,8 @@
                 el.classList.remove('error');
             });
             document.querySelectorAll('.conditional-fields').forEach((el) => {
-                el.style.display = 'none'; 
+                el.style.display = 'none'; // Esconde campos condicionais
+            });
         }
     </script>
 

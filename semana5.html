@@ -1,107 +1,189 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contador de Pessoas</title>
-<style>
-   .image-button {
-  /* Define a largura e a altura do botão */
-  width: 67px;
-  height: 57px;
-  /* Remove o preenchimento e a borda do botão */
-  padding: 0;
-  border: none;
-  /* Define a imagem de fundo e configura sua exibição */
-  background-image: url('menos.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* Opcional: oculta o texto dentro do botão */
-  color: transparent;
-}
-  .contador {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    margin: 50px auto;
-    background-color: #f9f9f9;
-  }
-  .contador h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  .contador p {
-    font-size: 18px;
-    margin: 0;
-  }
-  .imagens {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  .imagens img {
-    width: 80px;
-    height: auto;
-    border-radius: 50%;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea, button {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* Estilos para os botões */
+        .detalhesBtn {
+            background-color: blue;
+            color: white;
+        }
+
+        .concluirBtn {
+            background-color: green;
+            color: white;
+        }
+
+        .removerBtn {
+            background-color: red;
+            color: white;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Gerenciador de Tarefas</h1>
+        <form id="taskForm">
+            <input type="text" id="taskName" placeholder="Nome da Tarefa" required>
+            <textarea id="taskDescription" placeholder="Descrição da Tarefa" required></textarea>
+            <button type="submit">Adicionar Tarefa</button>
+        </form>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        class Tarefa {
+            constructor(nome, descricao) {
+                this.nome = nome;
+                this.descricao = descricao;
+                this.status = 'pendente'; // status pode ser 'pendente' ou 'concluída'
+            }
 
-<div class="contador">
-  <h2>Contador de Pessoas</h2>
-  <div class="imagens">
-    <img src="rosto.png" alt="rosto">
-    <img src="mulher.png" alt="Mulher">
-  </div>
-  <p>Total: <span id="total">0</span></p>
-  <p>Homens: <span id="homens">0</span></p>
-  <p>Mulheres: <span id="mulheres">0</span></p>
-  <button onclick="adicionarPessoa('homem')">Adicionar Homem</button>
-  <button onclick="adicionarPessoa('mulher')">Adicionar Mulher</button>
-  <br>
-  <button onclick="removerPessoa('homem')">Remover Homem</button>
-  <button onclick="removerPessoa('mulher')">Remover Mulher</button>
-</div>
+            concluir() {
+                this.status = 'concluída';
+            }
 
-<script>
-  let total = 0;
-  let homens = 0;
-  let mulheres = 0;
+            detalhes() {
+                return `Nome: ${this.nome}\nDescrição: ${this.descricao}\nStatus: ${this.status}`;
+            }
+        }
 
-  const totalElement = document.getElementById('total');
-  const homensElement = document.getElementById('homens');
-  const mulheresElement = document.getElementById('mulheres');
+        class GerenciadorDeTarefas {
+            #tarefas; // array privado de tarefas
 
-  function adicionarPessoa(genero) {
-    total++;
-    totalElement.textContent = total;
-    
-    if (genero === 'homem') {
-      homens++;
-      homensElement.textContent = homens;
-    } else if (genero === 'mulher') {
-      mulheres++;
-      mulheresElement.textContent = mulheres;
-    }
-  }
+            constructor() {
+                this.#tarefas = [];
+            }
 
-  function removerPessoa(genero) {
-    if (genero === 'homem' && homens > 0) {
-      homens--;
-      total--;
-      homensElement.textContent = homens;
-    } else if (genero === 'mulher' && mulheres > 0) {
-      mulheres--;
-      total--;
-      mulheresElement.textContent = mulheres;
-    }
-    totalElement.textContent = total;
-  }
-</script>
-   <button type="button" onclick="addData()"><a href="index.html">Voltar</a></button>
+            adicionarTarefa(tarefa) {
+                this.#tarefas.push(tarefa);
+                this.listarTarefas();
+            }
+
+            listarTarefas() {
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = '';
+                this.#tarefas.forEach((tarefa, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = tarefa.nome;
+                    if (tarefa.status === 'concluída') {
+                        li.classList.add('completed');
+                    }
+
+                    const detalhesBtn = document.createElement('button');
+                    detalhesBtn.textContent = 'Visualizar Detalhes';
+                    detalhesBtn.classList.add('detalhesBtn');
+                    detalhesBtn.onclick = () => alert(tarefa.detalhes());
+
+                    const concluirBtn = document.createElement('button');
+                    concluirBtn.textContent = 'Concluir Tarefa';
+                    concluirBtn.classList.add('concluirBtn');
+                    concluirBtn.onclick = () => {
+                        tarefa.concluir();
+                        this.listarTarefas();
+                    };
+
+                    const removerBtn = document.createElement('button');
+                    removerBtn.textContent = 'Remover Tarefa';
+                    removerBtn.classList.add('removerBtn');
+                    removerBtn.onclick = () => {
+                        this.removerTarefa(index);
+                    };
+
+                    li.appendChild(detalhesBtn);
+                    li.appendChild(concluirBtn);
+                    li.appendChild(removerBtn);
+                    taskList.appendChild(li);
+                });
+            }
+
+            marcarComoConcluida(index) {
+                if (this.#tarefas[index]) {
+                    this.#tarefas[index].concluir();
+                    this.listarTarefas();
+                }
+            }
+
+            removerTarefa(index) {
+                if (this.#tarefas[index]) {
+                    this.#tarefas.splice(index, 1);
+                    this.listarTarefas();
+                }
+            }
+
+            visualizarDetalhes(index) {
+                if (this.#tarefas[index]) {
+                    alert(this.#tarefas[index].detalhes());
+                }
+            }
+        }
+
+        const gerenciador = new GerenciadorDeTarefas();
+
+        document.getElementById('taskForm').onsubmit = function(event) {
+            event.preventDefault();
+            const nome = document.getElementById('taskName').value;
+            const descricao = document.getElementById('taskDescription').value;
+            const tarefa = new Tarefa(nome, descricao);
+            gerenciador.adicionarTarefa(tarefa);
+            this.reset(); // Limpar o formulário
+        };
+    </script>
 </body>
 </html>

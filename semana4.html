@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Carro</title>
+    <title>Formulário de Cadastro</title>
     <style>
         body {
             display: flex;
@@ -12,6 +12,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f2f2f2;
+            font-family: Helvetica, sans-serif;
         }
 
         #carForm {
@@ -22,31 +23,52 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        h1 {
+            font-size: 26px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
         label {
             display: block;
+            font-size: 10px;
+            color: rgba(34, 34, 34, 0.9);
             margin-bottom: 5px;
         }
 
-        input {
+        input, select {
             width: calc(100% - 12px);
             padding: 6px;
+            font-size: 12px;
+            color: #999;
+            border: none;
+            border-bottom: 1px solid #ccc;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        }
+
+        input.error {
+            border-bottom-color: red;
+        }
+
+        .error-message {
+            font-size: 10px;
+            color: red;
+            display: none;
         }
 
         button {
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
+            font-size: 12px;
+            background-color: #eee;
+            color: #000;
+            border: 1px solid #aaa;
+            border-radius: 4px;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #ddd;
         }
 
         .back-button {
@@ -58,35 +80,257 @@
             color: #007bff;
             text-decoration: none;
         }
+
+        .conditional-fields {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <form id="carForm">
-        <label for="marca">Marca:</label>
-        <input type="text" id="marca" name="marca"><br>
-        
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo" name="modelo"><br>
-        
-        <label for="ano">Ano:</label>
-        <input type="number" id="ano" name="ano"><br>
-        
-        <label for="cor">Cor:</label>
-        <input type="text" id="cor" name="cor"><br>
-        
-        <label for="kilometragem">Kilometragem:</label>
-        <input type="number" id="kilometragem" name="kilometragem"><br>
-        
-        <label for="valorFipe">Valor Fipe:</label>
-        <input type="number" id="valorFipe" name="valorFipe"><br>
-        
-        <button type="button" onclick="armazenarCarro()">Armazenar Carro</button>
+
+    <form id="carForm" onsubmit="return validarFormulario()">
+        <h1>Cadastro</h1>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo" onchange="toggleFields()" required>
+            <option value="">Selecione...</option>
+            <option value="aluno">Aluno</option>
+            <option value="professor">Professor</option>
+        </select>
+        <span class="error-message" id="erroTipo">Tipo é obrigatório.</span>
+
+        <div class="conditional-fields" id="alunoFields">
+            <label for="curso">Curso:</label>
+            <select id="curso" name="curso" onblur="validarCurso()" required>
+                <option value="">Selecione...</option>
+                <option value="curso1">Curso 1</option>
+                <option value="curso2">Curso 2</option>
+                <option value="curso3">Curso 3</option>
+            </select>
+            <span class="error-message" id="erroCurso">Curso é obrigatório.</span>
+
+            <label for="matriculaAluno">Matrícula:</label>
+            <input type="text" id="matriculaAluno" name="matriculaAluno" onblur="validarMatriculaAluno()" required>
+            <span class="error-message" id="erroMatriculaAluno">Matrícula de aluno inválida (10 dígitos).</span>
+        </div>
+
+        <div class="conditional-fields" id="professorFields">
+            <label for="areaAtuacao">Área de Atuação:</label>
+            <select id="areaAtuacao" name="areaAtuacao" onblur="validarAreaAtuacao()" required>
+                <option value="">Selecione...</option>
+                <option value="area1">Área 1</option>
+                <option value="area2">Área 2</option>
+                <option value="area3">Área 3</option>
+            </select>
+            <span class="error-message" id="erroAreaAtuacao">Área de atuação é obrigatória.</span>
+
+            <label for="emailLattes">Email Lattes:</label>
+            <input type="email" id="emailLattes" name="emailLattes" onblur="validarEmailLattes()" required>
+            <span class="error-message" id="erroEmailLattes">Email Lattes inválido (Formato: xxx@xxx.xxx).</span>
+
+            <label for="matriculaProfessor">Matrícula:</label>
+            <input type="text" id="matriculaProfessor" name="matriculaProfessor" onblur="validarMatriculaProfessor()" required>
+            <span class="error-message" id="erroMatriculaProfessor">Matrícula de professor inválida (5 dígitos).</span>
+        </div>
+
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" onblur="validarNome()" required>
+        <span class="error-message" id="erroNome">Nome inválido (Formato: xxx xxx).</span>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" onblur="validarEmail()" required>
+        <span class="error-message" id="erroEmail">Email inválido (Formato: xxx@xxx.xxx).</span>
+
+        <label for="dataNascimento">Data Nascimento:</label>
+        <input type="text" id="dataNascimento" name="dataNascimento" placeholder="dd/mm/aaaa" onblur="validarDataNascimento()" required>
+        <span class="error-message" id="erroDataNascimento">Data inválida (Formato: dd/mm/aaaa).</span>
+
+        <label for="telefoneFixo">Telefone Fixo:</label>
+        <input type="text" id="telefoneFixo" name="telefoneFixo" onblur="validarTelefoneFixo()" placeholder="(xx)xxxx-xxxx" required>
+        <span class="error-message" id="erroTelefoneFixo">Telefone fixo inválido (Formato: (xx)xxxx-xxxx).</span>
+
+        <label for="telefoneCelular">Telefone Celular:</label>
+        <input type="text" id="telefoneCelular" name="telefoneCelular" onblur="validarTelefoneCelular()" placeholder="(xx)xxxx-xxxx" required>
+        <span class="error-message" id="erroTelefoneCelular">Telefone celular inválido (Formato: (xx)xxxx-xxxx).</span>
+
+        <button type="submit">Cadastrar</button>
     </form>
 
     <div class="back-button">
         <a href="index.html">Voltar</a>
     </div>
 
-    <script src="scriptcarro.js"></script>
+    <script>
+        function toggleFields() {
+            const tipo = document.getElementById('tipo').value;
+            const alunoFields = document.getElementById('alunoFields');
+            const professorFields = document.getElementById('professorFields');
+            const erroTipo = document.getElementById('erroTipo');
+
+            if (tipo === 'aluno') {
+                alunoFields.style.display = 'block';
+                professorFields.style.display = 'none';
+                erroTipo.style.display = 'none';
+            } else if (tipo === 'professor') {
+                alunoFields.style.display = 'none';
+                professorFields.style.display = 'block';
+                erroTipo.style.display = 'none';
+            } else {
+                alunoFields.style.display = 'none';
+                professorFields.style.display = 'none';
+                erroTipo.style.display = 'block';
+            }
+        }
+
+        function validarNome() {
+            const nome = document.getElementById('nome').value;
+            const regex = /^[A-Za-z]+ [A-Za-z]+$/;
+            const erroNome = document.getElementById('erroNome');
+            if (!regex.test(nome)) {
+                erroNome.style.display = 'block';
+                document.getElementById('nome').classList.add('error');
+            } else {
+                erroNome.style.display = 'none';
+                document.getElementById('nome').classList.remove('error');
+            }
+        }
+
+        function validarEmail() {
+            const email = document.getElementById('email').value;
+            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+            const erroEmail = document.getElementById('erroEmail');
+            if (!regex.test(email)) {
+                erroEmail.style.display = 'block';
+                document.getElementById('email').classList.add('error');
+            } else {
+                erroEmail.style.display = 'none';
+                document.getElementById('email').classList.remove('error');
+            }
+        }
+
+        function validarDataNascimento() {
+            const dataNascimento = document.getElementById('dataNascimento').value;
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+            const erroDataNascimento = document.getElementById('erroDataNascimento');
+            if (!regex.test(dataNascimento)) {
+                erroDataNascimento.style.display = 'block';
+                document.getElementById('dataNascimento').classList.add('error');
+            } else {
+                erroDataNascimento.style.display = 'none';
+                document.getElementById('dataNascimento').classList.remove('error');
+            }
+        }
+
+        function validarTelefoneFixo() {
+            const telefoneFixo = document.getElementById('telefoneFixo').value;
+            const regex = /^\(\d{2}\)\d{4}-\d{4}$/;
+            const erroTelefoneFixo = document.getElementById('erroTelefoneFixo');
+            if (!regex.test(telefoneFixo)) {
+                erroTelefoneFixo.style.display = 'block';
+                document.getElementById('telefoneFixo').classList.add('error');
+            } else {
+                erroTelefoneFixo.style.display = 'none';
+                document.getElementById('telefoneFixo').classList.remove('error');
+            }
+        }
+
+        function validarTelefoneCelular() {
+            const telefoneCelular = document.getElementById('telefoneCelular').value;
+            const regex = /^\(\d{2}\)\d{4}-\d{4}$/;
+            const erroTelefoneCelular = document.getElementById('erroTelefoneCelular');
+            if (!regex.test(telefoneCelular)) {
+                erroTelefoneCelular.style.display = 'block';
+                document.getElementById('telefoneCelular').classList.add('error');
+            } else {
+                erroTelefoneCelular.style.display = 'none';
+                document.getElementById('telefoneCelular').classList.remove('error');
+            }
+        }
+
+        function validarCurso() {
+            const curso = document.getElementById('curso').value;
+            const erroCurso = document.getElementById('erroCurso');
+            if (curso === "") {
+                erroCurso.style.display = 'block';
+                document.getElementById('curso').classList.add('error');
+            } else {
+                erroCurso.style.display = 'none';
+                document.getElementById('curso').classList.remove('error');
+            }
+        }
+
+        function validarAreaAtuacao() {
+            const areaAtuacao = document.getElementById('areaAtuacao').value;
+            const erroAreaAtuacao = document.getElementById('erroAreaAtuacao');
+            if (areaAtuacao === "") {
+                erroAreaAtuacao.style.display = 'block';
+                document.getElementById('areaAtuacao').classList.add('error');
+            } else {
+                erroAreaAtuacao.style.display = 'none';
+                document.getElementById('areaAtuacao').classList.remove('error');
+            }
+        }
+
+        function validarMatriculaAluno() {
+            const matriculaAluno = document.getElementById('matriculaAluno').value;
+            const regex = /^\d{10}$/; 
+            const erroMatriculaAluno = document.getElementById('erroMatriculaAluno');
+            if (!regex.test(matriculaAluno)) {
+                erroMatriculaAluno.style.display = 'block';
+                document.getElementById('matriculaAluno').classList.add('error');
+            } else {
+                erroMatriculaAluno.style.display = 'none';
+                document.getElementById('matriculaAluno').classList.remove('error');
+            }
+        }
+
+        function validarMatriculaProfessor() {
+            const matriculaProfessor = document.getElementById('matriculaProfessor').value;
+            const regex = /^\d{5}$/; 
+            const erroMatriculaProfessor = document.getElementById('erroMatriculaProfessor');
+            if (!regex.test(matriculaProfessor)) {
+                erroMatriculaProfessor.style.display = 'block';
+                document.getElementById('matriculaProfessor').classList.add('error');
+            } else {
+                erroMatriculaProfessor.style.display = 'none';
+                document.getElementById('matriculaProfessor').classList.remove('error');
+            }
+        }
+
+        function validarEmailLattes() {
+            const emailLattes = document.getElementById('emailLattes').value;
+            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+            const erroEmailLattes = document.getElementById('erroEmailLattes');
+            if (!regex.test(emailLattes)) {
+                erroEmailLattes.style.display = 'block';
+                document.getElementById('emailLattes').classList.add('error');
+            } else {
+                erroEmailLattes.style.display = 'none';
+                document.getElementById('emailLattes').classList.remove('error');
+            }
+        }
+
+        function validarFormulario() {
+            validarNome();
+            validarEmail();
+            validarDataNascimento();
+            validarTelefoneFixo();
+            validarTelefoneCelular();
+
+            const tipo = document.getElementById('tipo').value;
+            if (tipo === 'aluno') {
+                validarCurso();
+                validarMatriculaAluno();
+            } else if (tipo === 'professor') {
+                validarAreaAtuacao();
+                validarEmailLattes();
+                validarMatriculaProfessor();
+            }
+
+            const erros = document.querySelectorAll('.error-message[style*="block"]');
+            return erros.length === 0;
+        }
+    </script>
+
 </body>
 </html>

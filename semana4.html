@@ -58,7 +58,7 @@
         }
 
         button {
-            width: 100%;
+            width: 48%;
             padding: 10px;
             font-size: 12px;
             background-color: #eee;
@@ -66,24 +66,15 @@
             border: 1px solid #aaa;
             border-radius: 4px;
             cursor: pointer;
+            margin: 1%;
         }
 
         button:hover {
             background-color: #ddd;
         }
 
-        .back-button {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .back-button a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
         .conditional-fields {
-            display: none; /* Esconde os campos condicionais inicialmente */
+            display: none; 
         }
     </style>
 </head>
@@ -102,39 +93,34 @@
 
         <div class="conditional-fields" id="alunoFields">
             <label for="curso">Curso:</label>
-            <input type="text" id="curso" name="curso" onblur="validarCurso()">
+            <input type="text" id="curso" name="curso" onblur="validarCampo(this, 'erroCurso', 'Campo obrigatório.')" required>
             <span class="error-message" id="erroCurso">Curso é obrigatório.</span>
 
             <label for="matriculaAluno">Matrícula:</label>
-            <input type="text" id="matriculaAluno" name="matriculaAluno" onblur="validarMatriculaAluno()">
+            <input type="text" id="matriculaAluno" name="matriculaAluno" onblur="validarMatricula(this, 'erroMatriculaAluno', 10)" required>
             <span class="error-message" id="erroMatriculaAluno">Matrícula de aluno inválida (10 dígitos).</span>
         </div>
 
         <div class="conditional-fields" id="professorFields">
             <label for="areaAtuacao">Área de Atuação:</label>
-            <select id="areaAtuacao" name="areaAtuacao" onblur="validarAreaAtuacao()">
-                <option value="">Selecione...</option>
-                <option value="area1">Área 1</option>
-                <option value="area2">Área 2</option>
-                <option value="area3">Área 3</option>
-            </select>
+            <input type="text" id="areaAtuacao" name="areaAtuacao" onblur="validarCampo(this, 'erroAreaAtuacao', 'Campo obrigatório.')" required>
             <span class="error-message" id="erroAreaAtuacao">Área de atuação é obrigatória.</span>
 
             <label for="emailLattes">Email Lattes:</label>
-            <input type="email" id="emailLattes" name="emailLattes" onblur="validarEmailLattes()">
+            <input type="email" id="emailLattes" name="emailLattes" onblur="validarEmail(this, 'erroEmailLattes')" required>
             <span class="error-message" id="erroEmailLattes">Email Lattes inválido (Formato: xxx@xxx.xxx).</span>
 
             <label for="matriculaProfessor">Matrícula:</label>
-            <input type="text" id="matriculaProfessor" name="matriculaProfessor" onblur="validarMatriculaProfessor()">
+            <input type="text" id="matriculaProfessor" name="matriculaProfessor" onblur="validarMatricula(this, 'erroMatriculaProfessor', 5)" required>
             <span class="error-message" id="erroMatriculaProfessor">Matrícula de professor inválida (5 dígitos).</span>
         </div>
 
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" onblur="validarNome()" required>
-        <span class="error-message" id="erroNome">Nome inválido (Formato: xxx xxx).</span>
+        <span class="error-message" id="erroNome">Nome inválido (Formato: Nome Sobrenome).</span>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" onblur="validarEmail()" required>
+        <input type="email" id="email" name="email" onblur="validarEmail(this, 'erroEmail')" required>
         <span class="error-message" id="erroEmail">Email inválido (Formato: xxx@xxx.xxx).</span>
 
         <label for="dataNascimento">Data Nascimento:</label>
@@ -142,14 +128,15 @@
         <span class="error-message" id="erroDataNascimento">Data inválida (Formato: dd/mm/aaaa).</span>
 
         <label for="telefoneFixo">Telefone Fixo:</label>
-        <input type="text" id="telefoneFixo" name="telefoneFixo" onblur="validarTelefoneFixo()" placeholder="(xx)xxxx-xxxx" required>
+        <input type="text" id="telefoneFixo" name="telefoneFixo" onblur="validarTelefone(this, 'erroTelefoneFixo')" placeholder="(xx)xxxx-xxxx" required>
         <span class="error-message" id="erroTelefoneFixo">Telefone fixo inválido (Formato: (xx)xxxx-xxxx).</span>
 
         <label for="telefoneCelular">Telefone Celular:</label>
-        <input type="text" id="telefoneCelular" name="telefoneCelular" onblur="validarTelefoneCelular()" placeholder="(xx)xxxx-xxxx" required>
+        <input type="text" id="telefoneCelular" name="telefoneCelular" onblur="validarTelefone(this, 'erroTelefoneCelular')" placeholder="(xx)xxxx-xxxx" required>
         <span class="error-message" id="erroTelefoneCelular">Telefone celular inválido (Formato: (xx)xxxx-xxxx).</span>
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Enviar</button>
+        <button type="button" onclick="resetarFormulario()">Redefinir</button>
     </form>
 
     <div class="back-button">
@@ -191,22 +178,22 @@
             }
         }
 
-        function validarEmail() {
-            const email = document.getElementById('email').value;
+        function validarEmail(input, errorId) {
+            const email = input.value;
             const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/; 
-            const erroEmail = document.getElementById('erroEmail');
+            const erroEmail = document.getElementById(errorId);
             if (!regex.test(email)) {
                 erroEmail.style.display = 'block';
-                document.getElementById('email').classList.add('error');
+                input.classList.add('error');
             } else {
                 erroEmail.style.display = 'none';
-                document.getElementById('email').classList.remove('error');
+                input.classList.remove('error');
             }
         }
 
         function validarDataNascimento() {
             const dataNascimento = document.getElementById('dataNascimento').value;
-            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/; 
             const erroDataNascimento = document.getElementById('erroDataNascimento');
             if (!regex.test(dataNascimento)) {
                 erroDataNascimento.style.display = 'block';
@@ -217,114 +204,78 @@
             }
         }
 
-        function validarTelefoneFixo() {
-            const telefoneFixo = document.getElementById('telefoneFixo').value;
-            const regex = /^\(\d{2}\)\d{4}-\d{4}$/;
-            const erroTelefoneFixo = document.getElementById('erroTelefoneFixo');
-            if (!regex.test(telefoneFixo)) {
-                erroTelefoneFixo.style.display = 'block';
-                document.getElementById('telefoneFixo').classList.add('error');
+        function validarTelefone(input, errorId) {
+            const telefone = input.value;
+            const regex = /^\(\d{2}\)\d{4}-\d{4}$/; 
+            const erroTelefone = document.getElementById(errorId);
+            if (!regex.test(telefone)) {
+                erroTelefone.style.display = 'block';
+                input.classList.add('error');
             } else {
-                erroTelefoneFixo.style.display = 'none';
-                document.getElementById('telefoneFixo').classList.remove('error');
+                erroTelefone.style.display = 'none';
+                input.classList.remove('error');
             }
         }
 
-        function validarTelefoneCelular() {
-            const telefoneCelular = document.getElementById('telefoneCelular').value;
-            const regex = /^\(\d{2}\)\d{4}-\d{4}$/;
-            const erroTelefoneCelular = document.getElementById('erroTelefoneCelular');
-            if (!regex.test(telefoneCelular)) {
-                erroTelefoneCelular.style.display = 'block';
-                document.getElementById('telefoneCelular').classList.add('error');
+        function validarMatricula(input, errorId, requiredLength) {
+            const matricula = input.value;
+            const regex = new RegExp(`^\\d{${requiredLength}}$`); 
+            const erroMatricula = document.getElementById(errorId);
+            if (!regex.test(matricula)) {
+                erroMatricula.style.display = 'block';
+                input.classList.add('error');
             } else {
-                erroTelefoneCelular.style.display = 'none';
-                document.getElementById('telefoneCelular').classList.remove('error');
-            }
-        }
-
-        function validarCurso() {
-            const curso = document.getElementById('curso').value;
-            const erroCurso = document.getElementById('erroCurso');
-            if (curso === "") {
-                erroCurso.style.display = 'block';
-                document.getElementById('curso').classList.add('error');
-            } else {
-                erroCurso.style.display = 'none';
-                document.getElementById('curso').classList.remove('error');
-            }
-        }
-
-        function validarAreaAtuacao() {
-            const areaAtuacao = document.getElementById('areaAtuacao').value;
-            const erroAreaAtuacao = document.getElementById('erroAreaAtuacao');
-            if (areaAtuacao === "") {
-                erroAreaAtuacao.style.display = 'block';
-                document.getElementById('areaAtuacao').classList.add('error');
-            } else {
-                erroAreaAtuacao.style.display = 'none';
-                document.getElementById('areaAtuacao').classList.remove('error');
-            }
-        }
-
-        function validarMatriculaAluno() {
-            const matriculaAluno = document.getElementById('matriculaAluno').value;
-            const regex = /^\d{10}$/; 
-            const erroMatriculaAluno = document.getElementById('erroMatriculaAluno');
-            if (!regex.test(matriculaAluno)) {
-                erroMatriculaAluno.style.display = 'block';
-                document.getElementById('matriculaAluno').classList.add('error');
-            } else {
-                erroMatriculaAluno.style.display = 'none';
-                document.getElementById('matriculaAluno').classList.remove('error');
-            }
-        }
-
-        function validarMatriculaProfessor() {
-            const matriculaProfessor = document.getElementById('matriculaProfessor').value;
-            const regex = /^\d{5}$/; 
-            const erroMatriculaProfessor = document.getElementById('erroMatriculaProfessor');
-            if (!regex.test(matriculaProfessor)) {
-                erroMatriculaProfessor.style.display = 'block';
-                document.getElementById('matriculaProfessor').classList.add('error');
-            } else {
-                erroMatriculaProfessor.style.display = 'none';
-                document.getElementById('matriculaProfessor').classList.remove('error');
-            }
-        }
-
-        function validarEmailLattes() {
-            const emailLattes = document.getElementById('emailLattes').value;
-            const regex = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/; // Formato de email
-            const erroEmailLattes = document.getElementById('erroEmailLattes');
-            if (!regex.test(emailLattes)) {
-                erroEmailLattes.style.display = 'block';
-                document.getElementById('emailLattes').classList.add('error');
-            } else {
-                erroEmailLattes.style.display = 'none';
-                document.getElementById('emailLattes').classList.remove('error');
+                erroMatricula.style.display = 'none';
+                input.classList.remove('error');
             }
         }
 
         function validarFormulario() {
+         
             validarNome();
-            validarEmail();
+            validarEmail(document.getElementById('email'), 'erroEmail');
             validarDataNascimento();
-            validarTelefoneFixo();
-            validarTelefoneCelular();
+            validarTelefone(document.getElementById('telefoneFixo'), 'erroTelefoneFixo');
+            validarTelefone(document.getElementById('telefoneCelular'), 'erroTelefoneCelular');
 
             const tipo = document.getElementById('tipo').value;
             if (tipo === 'aluno') {
-                validarCurso();
-                validarMatriculaAluno();
+                validarCampo(document.getElementById('curso'), 'erroCurso', 'Campo obrigatório.');
+                validarMatricula(document.getElementById('matriculaAluno'), 'erroMatriculaAluno', 10);
             } else if (tipo === 'professor') {
-                validarAreaAtuacao();
-                validarEmailLattes();
-                validarMatriculaProfessor();
+                validarCampo(document.getElementById('areaAtuacao'), 'erroAreaAtuacao', 'Campo obrigatório.');
+                validarEmail(document.getElementById('emailLattes'), 'erroEmailLattes');
+                validarMatricula(document.getElementById('matriculaProfessor'), 'erroMatriculaProfessor', 5);
             }
 
+            // Verifica se existem mensagens de erro
             const erros = document.querySelectorAll('.error-message[style*="block"]');
-            return erros.length === 0; // Impede o envio do formulário se houver erros
+            return erros.length === 0; 
+        }
+
+        function validarCampo(input, errorId, errorMessage) {
+            const value = input.value.trim();
+            const errorField = document.getElementById(errorId);
+            if (value === "") {
+                errorField.textContent = errorMessage;
+                errorField.style.display = 'block';
+                input.classList.add('error');
+            } else {
+                errorField.style.display = 'none';
+                input.classList.remove('error');
+            }
+        }
+
+        function resetarFormulario() {
+            document.getElementById('carForm').reset();
+            document.querySelectorAll('.error-message').forEach((el) => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('input').forEach((el) => {
+                el.classList.remove('error');
+            });
+            document.querySelectorAll('.conditional-fields').forEach((el) => {
+                el.style.display = 'none'; 
         }
     </script>
 
